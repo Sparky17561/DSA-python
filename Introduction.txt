@@ -1,0 +1,145 @@
+Time complexity 
+
+Rate of increase in time with respect to input size
+
+Rules for TC:
+1) Always calculate Time complexity in worst case 
+2) Avoid Constant values and Lower values 
+
+
+Different types of Time complexity 
+
+Big-Oh (worst case)(upperbound)
+Theta
+Omega  (best case)(lowerbound)
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Extraction of Digits 
+
+Count Digits 
+Reverse a Number
+Check Palindrome 
+Armstrong number 
+
+
+----------------------------------------------
+TC -> O(log(n))  SC -> O(1) 
+Count digits :
+
+from math import * 
+def countDigits(num):
+    return int(log10(num) + 1)
+---------------------------------------------------
+
+TC -> O(log(n))  SC -> O(1)
+Check Palindrome 
+
+num = n 
+result = 0
+while num >= 0:
+    ld = num%10
+    result = (result*10) + ld
+    num = num // 10 
+return n == result 
+
+-----------------------------------------------------
+TC -> O(log(n))  SC -> O(1)
+Armstrong Number 
+
+153 = 1^3 + 5^3 + 3^3 
+    = 1 + 125 + 27
+    = 153
+
+1634 too 
+
+
+n = 153 
+num = n 
+total = 0
+nod = len(str(n))
+while num >= 0 :
+    ld = num %10
+    total = total + (ld ** nod)
+    num = num // 10
+return total == n 
+
+------------------------------------------------------
+
+Print Factors / Divisors 
+
+10 -> [1,2,5,10]
+15 -> [1,3,5,10]
+25 -> [1,5,25]
+7 -> [1,7]
+19 -> [1,19]
+
+brute force 
+TC -> O(n)  SC -> O(k)
+result = []
+for i in range(1,num+1):
+    if num%i == 0:
+        result.append(i)
+return result 
+
+better solution -> for a number n it will be divisible by any number before n/2 and n/2 after that it will be divisible by n itself 
+
+TC -> O(n/2))  SC -> O(k)
+result = 0
+for i in range(1,num//2):
+    if num%i ==0:
+        result.append(i)
+result.append(num)
+return result 
+
+
+optimal solution 
+TC -> O(root(n)) + O(nlog(n))  SC -> O(k)
+36 = [1,2,3,4,6,9,12,18,36]
+
+1*36
+2*18
+3*12
+4*9
+6*6
+
+from math import sqrt
+
+result = []
+for i in range(1,sqrt(num)+1):
+    if num%i == 0 :
+        result.append(i)
+    if num // i != i :
+        result.append(num//i)
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Hashing -> Frequency Map / Dictionary 
+
+Method 1
+TC -> O(n)  SC -> O(n)
+nums = [5,6,7,7,8]
+freq_map = dict() ya fir {}
+
+for i in range(0,len(nums))
+    if nums[i] in freq_map:
+        freq_map[nums[i]] += 1
+    else:
+        freq_map[nums[i]] = 1
+
+x=1
+print(freq_map[x])
+
+
+Method 2 -> .get() returns 0 if not forund 
+TC -> O(1)  SC -> O(1) 
+hash_map = {}
+n = len(nums)
+for i in range(0,n):
+    hash_map[nums[i]] = hash_map.get(nums[i],0) + 1
+
+
+    //                  hash_map.get(5,0) + 1 // 5 is not in dict
+  //                    0+1 = 1
