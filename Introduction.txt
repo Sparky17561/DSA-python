@@ -143,3 +143,154 @@ for i in range(0,n):
 
     //                  hash_map.get(5,0) + 1 // 5 is not in dict
   //                    0+1 = 1
+
+
+  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+  hashing in Python  (if only constraint is given)
+
+  Constraint : 1 <= num <= 10
+  Prestoring the values into some datastructure like List/Dict/Set and then fetching it 
+
+  TC -> O(N+M)  SC -> O(1)
+  hash_list = [0] * 11
+
+  for num in n :
+    hash_list[num] += 1
+  
+
+  for num in m:
+    if num < 1 or num > 10:
+        print(0)
+    else:
+        print(hash_list[num])
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Factorial of a number -> Recursion 
+
+
+def factorial(int n):
+    num = n 
+    if num == 1 or num == 0:
+        return 1
+    else:
+        return num*factorial(num-1)
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Reverse Array -> Recursion 
+
+def func(nums,left,right):
+    if left >= right:
+        return
+    arr[left],arr[right]= arr[right],arr[left]
+    func(arr,left+1,right-1)
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
+
+
+Check Palindrome string -> Recursion 
+
+Normal
+def palindrome(s,left,right):
+    n = len(s)
+    left = 0
+    right = n-1
+    while left < right:
+        if s[left] != s[right]:
+            return False
+        left += 1
+        right -= 1
+    return True
+
+
+Recursion 
+def palindrome(s,left,right):
+    n = len(s)
+    if left >= right:
+        return True 
+    if s[left] == s[right]:
+        return palindrome(s,left+1,right-1)
+    else:
+        return False
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Fibonacci Number 
+
+0 1 1 2 3 5 8 13 21 34
+in leetcode :
+
+class Solution:
+    def func(num):
+        if num == 0 or num == 1:
+            return num 
+        return func(num-1) + func(num-2)
+
+    def fib(self,n:int) -> int:  //(given in leetcode)
+        answer = self.func(n)
+        return answer
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Largest Element in Array 
+
+largest = float("-inf")
+n= len(nums)
+for i in range(0,n):
+    largest = max(largest,nums[i])
+return largest
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+brute force
+Second Largest Element in Array  O(n+n)
+
+largest = float("-inf")
+s_largest = float("-inf")
+n = len(nums)
+
+for i in range(0,n):
+    largest = max(largest,nums[i])
+
+for i in range(0,n):
+    if nums[i] > s_largest and nums[i] != largest :
+        s_largest = nums[i]
+
+return s_largest
+
+
+optimal O(n)
+
+largest = float("-inf")
+s_largest = float("-inf")
+
+for i in range(0,n):
+    if nums[i] > largest:
+        s_largest = largest
+        largest = nums[i]
+    elif nums[i] > s_largest and nums[i] != largest:
+        s_largest = nums[i]
+
+return s_largest 
+
+_+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Check if the array is sorted 
+
+n = len(nums)
+
+for i in range(0,n-1):
+    if nums[i] > nums[i+1]:
+        return False 
+
+return True 
