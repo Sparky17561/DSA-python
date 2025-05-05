@@ -294,3 +294,119 @@ for i in range(0,n-1):
         return False 
 
 return True 
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Remove Duplicates from sorted array 
+
+Brute force  O(2n)
+
+
+n = len(nums)
+
+freq_map = {}
+for i in range(0,n):
+    freq_map[nums[i]] = 0
+
+j = 0
+
+for k in freq_map:
+    nums[j] = k
+    j +=1
+return j
+
+
+Optimal solution  two pointer approach  O(n)
+
+n = len(nums)
+
+if n == 1:
+    return 1
+
+i = 0
+j = i+1
+while j < n:
+    if nums[j] != nums[i]:
+        i += 1
+        nums[i],nums[j] = nums[j],nums[i]
+    j += 1
+return i+1
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Right Rotate array by 1 place 
+
+        0  1 2 3 4 5  6 7
+nums = [5,-2,3,9,0,6,10,7]
+       -8 -7 -6 -5 -4 -3 -2 -1 
+
+
+       nums[:] --> same list 
+
+       nums --> diff list 
+        Brute force O(n)
+       nums[:] = nums[-1] + nums[0:n-1] or nums[n-1] + nums[0:n-1]
+
+again O(n)
+temp = nums[n-1]  
+for i in range(n-2,-1,-1):
+    nums[i+1] = nums[i]
+
+nums[0] = temp
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==
+
+Leetcode - Right Rotate by K place 
+
+Brute   (if we use _ we are not going to use that variable anywhere) O(n^2)
+
+n = len(nums)
+rotations = k%n
+
+for _ in range(0,rotations):
+    e = nums.pop()
+    nums.insert(0,e)
+
+Better Soln (Slicing) O(n)
+n = len(nums)
+k=n%k
+nums[:] = nums[n-k:] + nums[:n-k]
+
+
+Optimal Soln O(n)
+
+def reverse(nums,left,right):
+    while left < right:
+        nums[left],nums[right] = nums[right],nums[left]
+        left +=1
+        right -=1
+    
+reverse(n-k,n-1) # Reverse last K numbers 
+reverse(0,n-k-1) # reverse remaining elements 
+reverse(0,n-1) # reverse whole array
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+O(n) - Optimal soln 
+Move Zeroes to end of the list 
+
+if len(nums) == 1:
+    return
+
+i = 0
+while i<len(nums):
+    if nums[i] == 0:
+        break
+    i+=1
+
+if i == len(nums):
+    return 
+
+j = i+1
+
+while j < len(nums):
+    if nums[j] != 0:
+        nums[i],nums[j]=nums[j],nums[i]
+        i+=1
+    j+=1
