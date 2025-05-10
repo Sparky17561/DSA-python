@@ -26,7 +26,6 @@ def bfs(graph,start):
         
         for neighbours in graph[current]:
             if neighbours not in visited:
-                visited.add(neighbours)
                 queue.append(neighbours)
     return result
 

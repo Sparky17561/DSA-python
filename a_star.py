@@ -1,73 +1,51 @@
-import heapq
-
-def a_star(graph,start,goal,heuristic):
-	open_set=[]
-	heapq.heappush(open_set,(0,start))
-	
-	came_from={}
-	
-	g_score = {node : float('inf') for node in graph}
-	g_score[start]=0
-	
-	f_score={node : float('inf') for node in graph}
-	f_score[start]=heuristic[start]
-
-	while open_set:
-		
-		_,current = heapq.heappop(open_set)
-		
-		if current == goal:
-			path = []
-			while current:
-				path.append(current)
-				current = came_from.get(current)
-			return path[::-1]
-		
-		for neighbour,weight in graph[current].items():
-			tentative_g_score = g_score[current] + weight
-			
-			if tentative_g_score < g_score[neighbour]:
-				came_from[neighbour] = current
-				g_score[neighbour] = tentative_g_score
-				f_score[neighbour] = g_score[neighbour] + heuristic[neighbour]
-				heapq.heappush(open_set,(f_score[neighbour],neighbour))
-	return "No path found"
-
-
-def get_user_input():
-    graph = {}
-    nodes = input("Enter all nodes separated by spaces: ").split()
-    
-    for node in nodes:
-        graph[node] = {}  # Initialize the dictionary for each node
-        neighbors = input(f"Enter neighbors of {node} with weights (a:b format): ").split()
-        
-        for n in neighbors:
-            if ':' in n:  # Check if the format is correct
-                try:
-                    neighbor, weight = n.split(':')
-                    graph[node][neighbor] = int(weight)
-                except ValueError:
-                    print(f"Invalid format for neighbor {n}. It should be 'A:10'.")
-            else:
-                print(f"Skipping invalid neighbor format: {n}")
-
-    heuristic = {}
-    print("\nEnter heuristic values for each node:")
-    
-    for node in nodes:
-        heuristic[node] = int(input(f"{node}: "))
-    
-    start = input("\nEnter the start node: ")
-    goal = input("Enter the goal node: ")
-    return graph, heuristic, start, goal
-
-
-
-def main():
-	graph,heuristic,start,goal = get_user_input()
-	path = a_star(graph,start,goal,heuristic)
-	print("shortest path: ",path)
-	
-if __name__ == "__main__":
-	main()
+def a_star(graph, start, goal, heuristic): 
+    frontier = [start]  # list of nodes to explore 
+    cost_so_far = {start: 0}  # cost from start to each node 
+    came_from = {start: None}  # for reconstructing path 
+ 
+    while frontier: 
+        # Select node with lowest f(n) = g(n) + h(n) 
+        current = min(frontier, key=lambda node: cost_so_far[node] + 
+heuristic[node]) 
+ 
+        if current == goal: 
+            break  # goal reached 
+ 
+        frontier.remove(current) 
+ 
+        for neighbor, cost in graph[current]: 
+            new_cost = cost_so_far[current] + cost  # g(n) 
+            if neighbor not in cost_so_far or new_cost < cost_so_far[neighbor]: 
+                cost_so_far[neighbor] = new_cost 
+                came_from[neighbor] = current 
+                if neighbor not in frontier: 
+                    frontier.append(neighbor) 
+ 
+    # Reconstruct path from goal to start 
+    path = [] 
+    current = goal 
+    while current is not None: 
+        path.append(current) 
+        current = came_from[current] 
+    path.reverse() 
+ 
+    return path, cost_so_far[goal] 
+ 
+ 
+ 
+# Sample graph and heuristic 
+graph = { 
+'S': [('A', 2), ('C', 12)], 
+'A': [('B', 2), ('C', 1)], 
+'B': [('D', 5)], 
+'C': [('D', 3), ('G', 4)], 
+'D': [('G', 4)], 
+'G': [] 
+} 
+heuristic = {'S': 5, 'A': 3, 'B': 4, 'C': 2, 'D': 6, 'G': 0} 
+# Run A* Search 
+start_node = 'S' 
+goal_node = 'G' 
+path, cost = a_star(graph, start_node, goal_node, heuristic) 
+print("Path:", path) 
+print("Total cost:", cost)
